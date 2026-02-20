@@ -1,130 +1,348 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Atendimento - Anderson Albino</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-        .container { background: white; max-width: 800px; margin: auto; padding: 40px; border: 1px solid #ccc; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
-        h2, h3 { color: #2c3e50; text-align: center; }
-        .header-info { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
-        .section { margin-bottom: 20px; }
-        .section-title { font-weight: bold; background: #eee; padding: 5px; margin-bottom: 10px; border-left: 5px solid #2c3e50; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input[type="text"], input[type="date"], input[type="time"], textarea {
-            width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;
-        }
-        .checkbox-group { margin: 10px 0; }
-        .checkbox-item { margin-bottom: 5px; display: flex; align-items: center; }
-        .checkbox-item input { margin-right: 10px; }
-        .footer { margin-top: 50px; text-align: center; }
-        .signature { margin-top: 40px; border-top: 1px solid #000; display: inline-block; width: 300px; padding-top: 5px; }
-        .no-print { text-align: center; margin-top: 30px; }
-        button { background: #27ae60; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #219150; }
-        
-        @media print {
-            .no-print { display: none; }
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; width: 100%; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha de Atendimento - Anderson Albino</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
+    .container { background: white; max-width: 800px; margin: auto; padding: 40px; border: 1px solid #ccc; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
+    h2, h3 { color: #2c3e50; text-align: center; }
+    .header-info { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+    .meta-top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size: 14px; margin-top: 10px; }
+    .meta-top .pill { background:#f2f2f2; padding:6px 10px; border-radius: 6px; border:1px solid #ddd; }
+    .section { margin-bottom: 20px; }
+    .section-title { font-weight: bold; background: #eee; padding: 5px; margin-bottom: 10px; border-left: 5px solid #2c3e50; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input[type="text"], input[type="date"], input[type="time"], textarea {
+      width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+    }
+    .checkbox-group { margin: 10px 0; }
+    .checkbox-item { margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+    .checkbox-item input { margin: 0; }
+    .footer { margin-top: 50px; text-align: center; }
+    .signature { margin-top: 40px; border-top: 1px solid #000; display: inline-block; width: 300px; padding-top: 5px; }
+    .no-print { text-align: center; margin-top: 30px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    button { background: #27ae60; color: white; padding: 15px 22px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #219150; }
+    .btn-secondary { background:#34495e; }
+    .btn-secondary:hover { background:#2c3e50; }
+
+    @media print {
+      .no-print { display: none; }
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; border: none; width: 100%; }
+    }
+  </style>
 </head>
+
 <body>
 
 <div class="container" id="conteudo">
-    <div class="header-info">
-        <h2>FICHA DE ATENDIMENTO TERAPÊUTICO INDIVIDUAL</h2>
-        <p><strong>CONSELHEIRO RESPONSÁVEL:</strong> Anderson Albino de Paula</p>
-        <p><strong>REGISTRO:</strong> CRT-DQ: 237290BR | <strong>CERTIFICADO RDA:</strong> 05380BN</p>
+  <div class="header-info">
+    <h2>FICHA DE ATENDIMENTO TERAPÊUTICO INDIVIDUAL</h2>
+    <p><strong>CONSELHEIRO RESPONSÁVEL:</strong> Anderson Albino de Paula</p>
+    <p><strong>REGISTRO:</strong> CRT-DQ: 237290BR | <strong>CERTIFICADO RDA:</strong> 05380BN</p>
+
+    <!-- META AUTOMÁTICA -->
+    <div class="meta-top">
+      <div class="pill"><strong>Nº da Ficha:</strong> <span id="fichaNumero">—</span></div>
+      <div class="pill"><strong>Data (auto):</strong> <span id="dataHojeTopo">—</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. IDENTIFICAÇÃO DO ACOLHIDO</div>
+
+    <label>Nome:</label>
+    <input type="text" id="nome" placeholder="Nome completo do acolhido" />
+
+    <div style="display: flex; gap: 20px;">
+      <div style="flex: 1;">
+        <label>Data do Atendimento:</label>
+        <input type="date" id="data" />
+      </div>
+      <div style="flex: 1;">
+        <label>Hora:</label>
+        <input type="time" id="hora" />
+      </div>
     </div>
 
-    <div class="section">
-        <div class="section-title">1. IDENTIFICAÇÃO DO ACOLHIDO</div>
-        <label>Nome:</label>
-        <input type="text" id="nome" placeholder="Nome completo do acolhido">
-        
-        <div style="display: flex; gap: 20px;">
-            <div style="flex: 1;">
-                <label>Data do Atendimento:</label>
-                <input type="date" id="data" value="2026-02-19">
-            </div>
-            <div style="flex: 1;">
-                <label>Hora:</label>
-                <input type="time" id="hora">
-            </div>
-        </div>
-        
-        <label>Tempo de Acolhimento (dias/meses):</label>
-        <input type="text" id="tempo" placeholder="Ex: 3 meses">
+    <label>Tempo de Acolhimento (dias/meses):</label>
+    <input type="text" id="tempo" placeholder="Ex: 3 meses" />
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. TÉCNICA E ABORDAGEM UTILIZADA</div>
+    <p><small>(Assinale as disciplinas da sua formação aplicadas nesta sessão)</small></p>
+
+    <div class="checkbox-group" id="tecnicasGroup">
+      <label class="checkbox-item">
+        <input type="checkbox" id="tec_em" />
+        <span>Entrevista Motivacional (Ambivalência e mudança)</span>
+      </label>
+
+      <label class="checkbox-item">
+        <input type="checkbox" id="tec_logo" />
+        <span>Logoterapia / Espiritualidade (Sentido e fortalecimento)</span>
+      </label>
+
+      <label class="checkbox-item">
+        <input type="checkbox" id="tec_psico" />
+        <span>Psicoeducação (Conceito de adicção e personalidade)</span>
+      </label>
+
+      <label class="checkbox-item">
+        <input type="checkbox" id="tec_escuta" />
+        <span>Escuta Terapêutica (Acolhimento e sentimentos)</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. DESENVOLVIMENTO DA SESSÃO</div>
+
+    <label>Demanda Apresentada:</label>
+    <textarea id="demanda" rows="3" placeholder="Fissura, conflito familiar, luto, etc."></textarea>
+
+    <label>Intervenção do Conselheiro:</label>
+    <textarea id="intervencao" rows="3" placeholder="Comunicação Não Violenta, 12 passos, etc."></textarea>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. EVOLUÇÃO E PLANO DE AÇÃO</div>
+
+    <label>Estado Emocional Atual:</label>
+    <div class="checkbox-group" style="display: flex; gap: 15px; flex-wrap:wrap;" id="estadoGroup">
+      <label class="checkbox-item">
+        <input type="radio" name="estado" value="Estável" />
+        <span>Estável</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="radio" name="estado" value="Instável" />
+        <span>Instável</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="radio" name="estado" value="Em crise" />
+        <span>Em crise</span>
+      </label>
     </div>
 
-    <div class="section">
-        <div class="section-title">2. TÉCNICA E ABORDAGEM UTILIZADA</div>
-        <p><small>(Assinale as disciplinas da sua formação aplicadas nesta sessão)</small></p>
-        <div class="checkbox-group">
-            <div class="checkbox-item"><input type="checkbox"> Entrevista Motivacional (Ambivalência e mudança)</div>
-            <div class="checkbox-item"><input type="checkbox"> Logoterapia / Espiritualidade (Sentido e fortalecimento)</div>
-            <div class="checkbox-item"><input type="checkbox"> Psicoeducação (Conceito de adicção e personalidade)</div>
-            <div class="checkbox-item"><input type="checkbox"> Escuta Terapêutica (Acolhimento e sentimentos)</div>
-        </div>
-    </div>
+    <label>Tarefa / Meta para a semana:</label>
+    <input type="text" id="meta" placeholder="Ex: Participar de 1 reunião, escrever diário, etc." />
+  </div>
 
-    <div class="section">
-        <div class="section-title">3. DESENVOLVIMENTO DA SESSÃO</div>
-        <label>Demanda Apresentada:</label>
-        <textarea id="demanda" rows="3" placeholder="Fissura, conflito familiar, luto, etc."></textarea>
-        
-        <label>Intervenção do Conselheiro:</label>
-        <textarea id="intervencao" rows="3" placeholder="Comunicação Não Violenta, 12 passos, etc."></textarea>
-    </div>
+  <div class="section">
+    <div class="section-title">5. OBSERVAÇÕES PARA A EQUIPE MULTIDISCIPLINAR</div>
+    <textarea id="obs" rows="3" placeholder="Informações para a Psicóloga ou Gestão"></textarea>
+  </div>
 
-    <div class="section">
-        <div class="section-title">4. EVOLUÇÃO E PLANO DE AÇÃO</div>
-        <label>Estado Emocional Atual:</label>
-        <div class="checkbox-group" style="display: flex; gap: 15px;">
-            <div class="checkbox-item"><input type="radio" name="estado"> Estável</div>
-            <div class="checkbox-item"><input type="radio" name="estado"> Instável</div>
-            <div class="checkbox-item"><input type="radio" name="estado"> Em crise</div>
-        </div>
-        
-        <label>Tarefa / Meta para a semana:</label>
-        <input type="text" id="meta">
+  <div class="footer">
+    <p>Assinatura do Conselheiro:</p>
+    <div class="signature">
+      <strong>Anderson Albino de Paula</strong><br />
+      Conselheiro Terapeuta em Dependência Química<br />
+      CRT-DQ: 237290BR
     </div>
-
-    <div class="section">
-        <div class="section-title">5. OBSERVAÇÕES PARA A EQUIPE MULTIDISCIPLINAR</div>
-        <textarea id="obs" rows="3" placeholder="Informações para a Psicóloga ou Gestão"></textarea>
-    </div>
-
-    <div class="footer">
-        <p>Assinatura do Conselheiro:</p>
-        <div class="signature">
-            <strong>Anderson Albino de Paula</strong><br>
-            Conselheiro Terapeuta em Dependência Química<br>
-            CRT-DQ: 237290BR
-        </div>
-    </div>
+  </div>
 </div>
 
 <div class="no-print">
-    <button onclick="gerarPDF()">Gerar PDF para Impressão</button>
+  <button onclick="gerarPDF()">Gerar PDF + JSON</button>
+  <button class="btn-secondary" onclick="resetarFicha()">Nova ficha (incrementa nº)</button>
 </div>
 
 <script>
-    function gerarPDF() {
-        const elemento = document.getElementById('conteudo');
-        const opcoes = {
-            margin: 10,
-            filename: 'Ficha_Atendimento_Anderson_Albino.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        html2pdf().set(opcoes).from(elemento).save();
-    }
+  // ====== UTIL ======
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function hojeISO(){
+    const d = new Date();
+    return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+  }
+  function agoraHora(){
+    const d = new Date();
+    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  }
+
+  // ====== NUMERAÇÃO AUTOMÁTICA ======
+  const KEY_SEQ = "ficha_seq_atendimento_v1";
+
+  function obterSequenciaAtual(){
+    const raw = localStorage.getItem(KEY_SEQ);
+    const n = raw ? parseInt(raw, 10) : 1;
+    return Number.isFinite(n) && n > 0 ? n : 1;
+  }
+
+  function setSequencia(n){
+    localStorage.setItem(KEY_SEQ, String(n));
+  }
+
+  function numeroFormatado(n){
+    // Ex: 000123
+    return String(n).padStart(6, "0");
+  }
+
+  function aplicarNumeroNoTopo(){
+    const seq = obterSequenciaAtual();
+    document.getElementById("fichaNumero").innerText = numeroFormatado(seq);
+  }
+
+  // ====== DATA AUTOMÁTICA ======
+  function aplicarDataAutomatica(){
+    const hoje = hojeISO();
+    document.getElementById("data").value = hoje;            // preenche campo
+    document.getElementById("dataHojeTopo").innerText = hoje; // mostra no topo
+  }
+
+  // ====== CAPTURA DOS DADOS (JSON) ======
+  function capturarDadosFicha(){
+    const tecnicas = [
+      { id:"tec_em", label:"Entrevista Motivacional (Ambivalência e mudança)" },
+      { id:"tec_logo", label:"Logoterapia / Espiritualidade (Sentido e fortalecimento)" },
+      { id:"tec_psico", label:"Psicoeducação (Conceito de adicção e personalidade)" },
+      { id:"tec_escuta", label:"Escuta Terapêutica (Acolhimento e sentimentos)" },
+    ];
+
+    const estadoRadio = document.querySelector("input[name='estado']:checked");
+    const seq = obterSequenciaAtual();
+
+    return {
+      fichaNumero: numeroFormatado(seq),
+      geradoEm: new Date().toISOString(),
+      conselheiro: {
+        nome: "Anderson Albino de Paula",
+        registro: "CRT-DQ: 237290BR",
+        certificadoRDA: "05380BN"
+      },
+      acolhido: {
+        nome: document.getElementById("nome").value.trim(),
+        dataAtendimento: document.getElementById("data").value,
+        hora: document.getElementById("hora").value,
+        tempoAcolhimento: document.getElementById("tempo").value.trim()
+      },
+      tecnicaAbordagem: tecnicas
+        .map(t => ({ ...t, checked: document.getElementById(t.id).checked }))
+        .filter(t => t.checked)
+        .map(t => t.label),
+      sessao: {
+        demanda: document.getElementById("demanda").value.trim(),
+        intervencao: document.getElementById("intervencao").value.trim()
+      },
+      evolucaoPlano: {
+        estadoEmocional: estadoRadio ? estadoRadio.value : "",
+        metaSemana: document.getElementById("meta").value.trim()
+      },
+      observacoesEquipe: document.getElementById("obs").value.trim()
+    };
+  }
+
+  function baixarJSON(dados){
+    const blob = new Blob([JSON.stringify(dados, null, 2)], { type: "application/json;charset=utf-8" });
+    const a = document.createElement("a");
+    const seq = obterSequenciaAtual();
+    a.href = URL.createObjectURL(blob);
+    a.download = `Ficha_Atendimento_${numeroFormatado(seq)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // ====== PREPARO PARA PDF (congelar inputs) ======
+  function prepararConteudoParaPDF() {
+    // Inputs text/date/time
+    document.querySelectorAll("input[type='text'], input[type='date'], input[type='time']").forEach(input => {
+      const span = document.createElement("span");
+      span.innerText = input.value || "";
+      span.style.display = "block";
+      span.style.marginTop = "6px";
+      span.style.padding = "8px";
+      span.style.border = "1px solid #ccc";
+      span.style.borderRadius = "4px";
+      span.style.fontSize = "14px";
+      input.parentNode.replaceChild(span, input);
+    });
+
+    // Textarea
+    document.querySelectorAll("textarea").forEach(textarea => {
+      const div = document.createElement("div");
+      div.innerText = textarea.value || "";
+      div.style.marginTop = "6px";
+      div.style.padding = "8px";
+      div.style.border = "1px solid #ccc";
+      div.style.borderRadius = "4px";
+      div.style.fontSize = "14px";
+      div.style.whiteSpace = "pre-wrap";
+      textarea.parentNode.replaceChild(div, textarea);
+    });
+
+    // Checkbox
+    document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+      const marker = document.createElement("span");
+      marker.innerText = checkbox.checked ? "☑" : "☐";
+      marker.style.fontSize = "16px";
+      marker.style.lineHeight = "1";
+      checkbox.parentNode.insertBefore(marker, checkbox);
+      checkbox.remove();
+    });
+
+    // Radio
+    document.querySelectorAll("input[type='radio']").forEach(radio => {
+      const marker = document.createElement("span");
+      marker.innerText = radio.checked ? "☑" : "☐";
+      marker.style.fontSize = "16px";
+      marker.style.lineHeight = "1";
+      radio.parentNode.insertBefore(marker, radio);
+      radio.remove();
+    });
+  }
+
+  // ====== PDF + JSON ======
+  function gerarPDF() {
+    // Auto preenche hora se vazio (ajuda na rotina)
+    const horaEl = document.getElementById("hora");
+    if (!horaEl.value) horaEl.value = agoraHora();
+
+    const dados = capturarDadosFicha();
+    baixarJSON(dados);
+
+    // Congela campos e gera PDF
+    prepararConteudoParaPDF();
+
+    const elemento = document.getElementById("conteudo");
+    const seq = obterSequenciaAtual();
+
+    const opcoes = {
+      margin: 5,
+      filename: `Ficha_Atendimento_${numeroFormatado(seq)}.pdf`,
+      image: { type: "jpeg", quality: 1 },
+      html2canvas: { scale: 3, useCORS: true, scrollY: 0 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+    };
+
+    html2pdf().set(opcoes).from(elemento).save();
+  }
+
+  // ====== NOVA FICHA (incrementa número e recarrega) ======
+  function resetarFicha(){
+    const atual = obterSequenciaAtual();
+    setSequencia(atual + 1);
+    location.reload();
+  }
+
+  // ====== INIT ======
+  (function init(){
+    aplicarNumeroNoTopo();
+    aplicarDataAutomatica();
+
+    // Se quiser, já preencher hora automaticamente (remova se não quiser)
+    const horaEl = document.getElementById("hora");
+    if (!horaEl.value) horaEl.value = agoraHora();
+  })();
 </script>
 
 </body>
